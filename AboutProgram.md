@@ -30,18 +30,19 @@ Follow for more performance updates!
   
 The powershell code
 _______> # --- KINGO TWEAKING UTILITY v1.0 ---
-# 1. AUTO-ADMIN: Automatically requests admin rights when launched
+# --- KINGO TWEAKING UTILITY v1.0 ---
+# 1. AUTO-ADMIN ELEVATION: Ensures registry tweaks are applied correctly
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Start-Process PowerShell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
     Exit
 }
 
-# 2. UI SETUP: Custom Yellow & Black Theme
+# 2. THEME & UI COLORS
 [Console]::BackgroundColor = "Black"
 [Console]::ForegroundColor = "Yellow"
 Clear-Host
 
-# 3. CORE FUNCTIONS
+# 3. HEADER FUNCTION: The "Professional Tweaker" Look
 function Show-Header {
     Clear-Host
     Write-Host "#################################################" -ForegroundColor Yellow
@@ -50,48 +51,53 @@ function Show-Header {
     Write-Host "#         0-Delay Performance Optimizer         #" -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "#                                               #" -ForegroundColor Yellow
     Write-Host "#################################################" -ForegroundColor Yellow
-    Write-Host " [STATUS] Gateway GW15-41P detected"
-    Write-Host " [MODE]   Extreme Optimization Mode"
+    Write-Host " [DEVICE]  Gateway GW15-41P detected"
+    Write-Host " [USER]    $env:USERNAME"
+    Write-Host " [STATUS]  Ready to optimize..."
     Write-Host "-------------------------------------------------" -ForegroundColor Yellow
 }
 
-function Create-RestorePoint {
-    Write-Host "[!] Creating System Restore Point for safety..." -ForegroundColor Yellow
-    Checkpoint-Computer -Description "KingO_Before_Tweak" -RestorePointType "MODIFY_SETTINGS" -ErrorAction SilentlyContinue
-}
-
-# 4. MAIN PROGRAM LOOP
+# 4. OPTIMIZATION LOGIC (The Tweaks)
 do {
     Show-Header
-    Write-Host " 1. [MOUSE]     0.5ms Timer & 1000Hz Buffer Fix"
-    Write-Host " 2. [CPU]       Boost Ryzen 7 Maximum Power"
-    Write-Host " 3. [STRIP]     Extreme Bloat & Texture Removal"
-    Write-Host " 4. [RESTORE]   Revert to Default Settings"
-    Write-Host " 5. [EXIT]      Close Software"
+    Write-Host " 1. [MOUSE]     Apply 1000Hz Polling & 0.5ms Timer"
+    Write-Host " 2. [CPU]       Unlock Ryzen 7 Maximum Power"
+    Write-Host " 3. [STRIP]     Permanent Bloatware & Texture Removal"
+    Write-Host " 4. [RESTORE]   Reset All to Windows Defaults"
+    Write-Host " 5. [EXIT]      Close Utility"
     Write-Host "-------------------------------------------------" -ForegroundColor Yellow
-    $choice = Read-Host " Select Option > "
+    Write-Host " Select Option > " -NoNewline -ForegroundColor Yellow
+    $choice = Read-Host
 
     switch ($choice) {
         '1' {
-            Write-Host "[!] Applying Mouse & Global Timer Resolution..." -ForegroundColor Cyan
-            # Force 0.5ms Timer Resolution
+            Write-Host "[!] Optimizing Mouse & Timer..." -ForegroundColor Black -BackgroundColor Yellow
+            # 0.5ms Timer & 1000Hz Tweak Logic
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" -Name "GlobalTimerResolutionRequests" -Value 1
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\mouclass\Parameters" -Name "MouseDataQueueSize" -Value 25
+            Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value 0
             Start-Sleep -Seconds 2
         }
         '2' {
-            Write-Host "[!] Unlocking Ryzen Performance..." -ForegroundColor Cyan
-            # Ryzen Power Throttling Bypass
+            Write-Host "[!] Boosting Ryzen CPU..." -ForegroundColor Black -BackgroundColor Yellow
+            # CPU Throttling & Power Plan
             Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Power" -Name "PowerThrottlingOff" -Value 1
             bcdedit /set disabledynamictick yes
-            powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 | Out-Null
+            powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 | Out-Null # Ultimate Perf
             Start-Sleep -Seconds 2
         }
         '3' {
-            Write-Host "[!] Stripping System Textures & Bloat..." -ForegroundColor Cyan
-            # Visual Performance Tweak
-            Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Value 2
+            Write-Host "[!] Stripping Bloat..." -ForegroundColor Black -BackgroundColor Yellow
+            # Permanent Deletion Logic
             Get-AppxPackage -Name "*TikTok*" | Remove-AppxPackage -ErrorAction SilentlyContinue
+            Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Value 2
+            Start-Sleep -Seconds 2
+        }
+        '4' {
+            Write-Host "[!] Restoring Defaults..." -ForegroundColor Black -BackgroundColor Yellow
+            # Revert Tweak
+            Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value 1
+            bcdedit /set disabledynamictick no
             Start-Sleep -Seconds 2
         }
     }
@@ -99,5 +105,3 @@ do {
 
 [Console]::ResetColor()
 Clear-Host
-
-
