@@ -30,7 +30,15 @@ Follow for more performance updates!
   
 The powershell code
 _______> # --- KINGO TWEAKING UTILITY v1.0 ---
-# --- KINGO TWEAKING UTILITY v1.0 ---
+
+
+
+
+# --- KINGO TWEAKING UTILITY v1.0 --
+
+
+
+
 # 1. AUTO-ADMIN ELEVATION: Ensures registry tweaks are applied correctly
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Start-Process PowerShell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
